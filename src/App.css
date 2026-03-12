@@ -1,0 +1,503 @@
+/* --- App specific layouts and overrides --- */
+
+.full-screen-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  padding: 20px;
+  background: var(--bg-color);
+}
+
+.text-red { color: #ef4444; }
+.text-light { color: var(--text-light); }
+.mb-4 { margin-bottom: 16px; }
+.mt-2 { margin-top: 8px; }
+.mt-6 { margin-top: 24px; }
+.max-w-sm { max-width: 400px; }
+.text-center { text-align: center; }
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: var(--shadow-md);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Animations loading */
+.pulse-ring {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  animation: pulse 1.5s infinite ease-in-out;
+  margin-bottom: 24px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* --- Layout --- */
+
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  overflow: hidden;
+  position: relative;
+}
+
+.app-header {
+  position: relative;
+  z-index: 10;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brand-icon {
+  color: var(--primary-color);
+}
+
+.brand h1 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+/* Filters */
+.filter-container {
+  width: 100%;
+}
+
+.filter-scroll {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+  scrollbar-width: none;
+}
+.filter-scroll::-webkit-scrollbar { display: none; }
+
+.filter-pill {
+  white-space: nowrap;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-color);
+  color: var(--text-md);
+  font-weight: 500;
+  font-size: 0.875rem;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-pill:hover {
+  background-color: rgba(0,0,0,0.02);
+}
+
+.filter-pill.active {
+  background-color: var(--text-dark);
+  color: var(--surface-color);
+  border-color: var(--text-dark);
+}
+
+/* Main Content Dual Layout */
+.main-content {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.sidebar {
+  width: 400px;
+  background-color: var(--surface-color);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-right: 1px solid rgba(0,0,0,0.05);
+  box-shadow: 4px 0 15px rgba(0,0,0,0.03);
+  z-index: 5;
+}
+
+.sidebar-header {
+  padding: 20px;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-color);
+}
+
+.sidebar-header h2 {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.places-count {
+  font-size: 0.875rem;
+  background: rgba(0,0,0,0.05);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  color: var(--text-md);
+  font-weight: 600;
+}
+
+.map-section {
+  flex: 1;
+  position: relative;
+  background: #e2e8f0;
+}
+
+/* Custom markers globally defined so Leaflet finds them */
+.user-marker { z-index: 1000 !important; }
+.custom-pin {
+  transition: transform 0.2s ease;
+}
+.custom-pin:hover {
+  transform: scale(1.1) rotate(-45deg) !important;
+}
+
+/* Leaflet Popup overrides for beauty */
+.leaflet-popup-content-wrapper {
+  border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-lg) !important;
+  padding: 4px !important;
+}
+.leaflet-popup-content {
+  margin: 12px 16px !important;
+  font-family: inherit !important;
+}
+.custom-popup { padding-bottom: 8px; }
+
+/* List View Styles */
+.place-list-container {
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+}
+
+.place-card {
+  background: var(--surface-color);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  cursor: pointer;
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.place-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.place-card.selected {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color), var(--shadow-md);
+  background: rgba(59, 130, 246, 0.02);
+}
+
+.place-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 4px; height: 100%;
+  background: transparent;
+  transition: var(--transition);
+}
+
+.place-card.selected::before {
+  background: var(--primary-color);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.place-name {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0;
+}
+
+.category-badge {
+  font-size: 0.75rem;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.bg-attraction { background: #fee2e2; color: #991b1b; }
+.bg-hotel { background: #dbeafe; color: #1e40af; }
+.bg-resort { background: #d1fae5; color: #065f46; }
+
+.card-meta {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 8px;
+  font-size: 0.875rem;
+  color: var(--text-md);
+}
+
+.meta-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.rating { color: #f59e0b; }
+
+.place-address {
+  font-size: 0.875rem;
+  color: var(--text-md);
+  opacity: 0.8;
+}
+
+.truncate-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Expanded Place Details */
+.place-details {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  margin-top: 0;
+}
+
+.place-details.expanded {
+  max-height: 200px; /* arbitrary high enough value */
+  opacity: 1;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0,0,0,0.06);
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.875rem;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  text-decoration: none;
+}
+
+.detail-row.actionable:hover {
+  color: var(--primary-color);
+}
+
+.maps-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px;
+  background-color: var(--surface-color);
+  border: 1px solid rgba(0,0,0,0.1);
+  border-radius: var(--radius-sm);
+  color: var(--text-dark);
+  font-weight: 600;
+  margin-top: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.maps-btn:hover {
+  background-color: var(--bg-color);
+  border-color: rgba(0,0,0,0.2);
+}
+
+/* Loading Skeleton */
+.skeleton-card {
+  height: 120px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
+}
+
+.list-empty, .list-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 100%;
+  padding: 32px 20px;
+  opacity: 0.6;
+}
+
+.empty-icon-wrap {
+  width: 64px;
+  height: 64px;
+  background: rgba(0,0,0,0.03);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+/* Mobile specific responsive logic */
+.mobile-fab-container {
+  display: none;
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+.fab {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: var(--text-dark);
+  color: var(--surface-color);
+  padding: 12px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 12px 16px;
+  }
+  
+  .filter-scroll {
+    padding-bottom: 0;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+  
+  .main-content {
+    position: relative;
+  }
+  
+  .sidebar, .map-section {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  
+  .mobile-active {
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 10;
+  }
+  
+  .mobile-fab-container {
+    display: block;
+  }
+}
+
+/* Dark mode overrides that were missed in default */
+@media (prefers-color-scheme: dark) {
+  .app-header, .sidebar, .place-card {
+    border-color: rgba(255,255,255,0.05);
+  }
+  
+  .filter-pill {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+  }
+  
+  .filter-pill.active {
+    background: var(--text-dark);
+    color: var(--bg-color);
+  }
+
+  .place-card {
+    background: rgba(255,255,255,0.03);
+  }
+  .place-card:hover { border-color: rgba(255,255,255,0.15); }
+
+  .bg-attraction { background: rgba(239, 68, 68, 0.15); color: #fca5a5; }
+  .bg-hotel { background: rgba(59, 130, 246, 0.15); color: #93c5fd; }
+  .bg-resort { background: rgba(16, 185, 129, 0.15); color: #6ee7b7; }
+
+  .skeleton-card {
+    background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+    background-size: 200% 100%;
+  }
+
+  .maps-btn {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+  }
+  
+  .maps-btn:hover { background: rgba(255,255,255,0.1); }
+  
+  .leaflet-container {
+    background: #0f172a; /* Make blank tiles dark */
+  }
+  
+  .leaflet-layer,
+  .leaflet-control-zoom-in,
+  .leaflet-control-zoom-out,
+  .leaflet-control-attribution {
+    filter: invert(100%) hue-rotate(180deg) brightness(95%) contrast(90%);
+  }
+}
