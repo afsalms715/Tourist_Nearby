@@ -1,6 +1,48 @@
-import { MapPin, Navigation, Star, Phone, Globe, ExternalLink } from 'lucide-react';
+import { MapPin, Navigation, Star, Phone, Globe, ExternalLink, Bookmark } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
+import { savePlaceToFirestore, removeSavedPlace } from '../api/firestore';
+import { useNavigate } from 'react-router-dom';
 
-export default function PlaceList({ places, loading, error, selectedPlaceId, onPlaceSelect }) {
+export default function PlaceList({ places, loading, error, selectedPlaceId, onPlaceSelect, savedPlaceIds, setSavedPlaceIds }) {
+  const { currentUser } = useAuth();
+  const navigate = useNavigate();
+
+  const handleSaveToggle = async (e, place) => {
+    e.stopPropagation();
+    if (!currentUser) {
+      alert("Please log in to save places to your list.");
+      return;
+    }
+    
+    const isSaved = savedPlaceIds.has(place.id);
+
+    try {
+      if (isSaved) {
+        await removeSavedPlace(currentUser.uid, place.id);
+        setSavedPlaceIds(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(place.id);
+          return newSet;
+        });
+      } else {
+        await savePlaceToFirestore(currentUser.uid, place);
+        setSavedPlaceIds(prev => new Set(prev).add(place.id));
+      }
+    } catch (err) {
+      console.error("Error saving/removing place:", err);
+      alert("Error processing request. Please try again.");
+    }
+  };
+
+  const handleCardClick = (place) => {
+    if (place.id === selectedPlaceId) {
+      // If already selected, navigate to details
+      navigate(`/place/${place.id}`, { state: { place } });
+    } else {
+      // Otherwise just select it to expand small details on map
+      onPlaceSelect(place.id);
+    }
+  };
   if (loading) {
     return (
       <div className="list-loading animate-fade-in">
@@ -38,15 +80,24 @@ export default function PlaceList({ places, loading, error, selectedPlaceId, onP
       {places.map((place) => (
         <div 
           key={place.id} 
-          className={`place-card animate-fade-in ${place.id === selectedPlaceId ? 'selected' : ''}`}
-          onClick={() => onPlaceSelect(place.id)}
+          className={`place-card animate-fade-in ${place.id === selectedPlaceId ? 'selected cursor-pointer' : 'cursor-pointer'}`}
+          onClick={() => handleCardClick(place)}
           id={`place-${place.id}`}
         >
           <div className="card-header">
             <h3 className="place-name">{place.name}</h3>
-            <span className={`category-badge bg-${place.category}`}>
-              {place.category}
-            </span>
+            <div className="flex items-center gap-2">
+              <span className={`category-badge bg-${place.category}`}>
+                {place.category}
+              </span>
+              <button 
+                className={`transition-colors p-1 ${savedPlaceIds?.has(place.id) ? 'text-blue-500' : 'text-gray-400 hover:text-blue-500'}`}
+                onClick={(e) => handleSaveToggle(e, place)}
+                title={savedPlaceIds?.has(place.id) ? "Remove from My List" : "Save to My List"}
+              >
+                <Bookmark size={20} fill={savedPlaceIds?.has(place.id) ? "currentColor" : "none" } />
+              </button>
+            </div>
           </div>
 
           <div className="card-meta">
